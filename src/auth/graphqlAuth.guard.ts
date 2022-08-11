@@ -30,23 +30,3 @@ export class GraphqlAuthGuard extends AuthGuard(STRATEGY_JWT) {
     return user;
   }
 }
-/**
- * Guard, проверяющий наличие аутентифицированного пользователя для GraphQL-запроса
- */
-@Injectable()
-export class GraphqlOptionalAuthGuard extends AuthGuard(STRATEGY_JWT) {
-  /**
-   * Переопределенная функция получения входящего запроса для AuthGuard.
-   * Получает запрос из GraphQL-контекста.
-   * GraphQL-контекст заполняется функцией context в GraphqlModule
-   */
-  getRequest(context: ExecutionContext) {
-    const ctx = GqlExecutionContext.create(context);
-    const gcontext = ctx.getContext();
-    return gcontext.req;
-  }
-
-  handleRequest(err, user) {
-    return user;
-  }
-}

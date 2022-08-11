@@ -1,13 +1,13 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Table, Column, Model } from 'sequelize-typescript';
 
-@ObjectType()
-export class User {
-  @Field(() => Int)
+@Table
+export class User extends Model {
+  @Column({ primaryKey: true })
   id: number;
-  @Field(() => String, { description: 'login/email/phone' })
+  @Column
   login: string;
-  @Field(() => String, { description: 'password' })
+  @Column
   password: string;
-  @Field(() => String, { description: 'full name' })
+  @Column
   fullName: string;
 }

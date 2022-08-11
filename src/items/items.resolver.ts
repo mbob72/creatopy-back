@@ -1,41 +1,41 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ItemsService } from './items.service';
-import { Item } from './entities/item.entity';
+import { ItemType } from './dto/item.type';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
 import { UseGuards } from '@nestjs/common';
 import { GraphqlAuthGuard } from '../auth/graphqlAuth.guard';
 
-@Resolver(() => Item)
+@Resolver(() => ItemType)
 export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
   @UseGuards(GraphqlAuthGuard)
-  @Mutation(() => Item)
+  @Mutation(() => ItemType)
   createItem(@Args('createItemInput') createItemInput: CreateItemInput) {
     return this.itemsService.create(createItemInput);
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Query(() => [Item], { name: 'items' })
+  @Query(() => [ItemType], { name: 'items' })
   findAll() {
     return this.itemsService.findAll();
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Query(() => Item, { name: 'item' })
+  @Query(() => ItemType, { name: 'item' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.itemsService.findOne(id);
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Mutation(() => Item)
+  @Mutation(() => ItemType)
   updateItem(@Args('updateItemInput') updateItemInput: UpdateItemInput) {
     return this.itemsService.update(updateItemInput.id, updateItemInput);
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Mutation(() => Item)
+  @Mutation(() => ItemType)
   removeItem(@Args('id', { type: () => Int }) id: number) {
     return this.itemsService.remove(id);
   }
