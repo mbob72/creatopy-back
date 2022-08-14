@@ -8,5 +8,7 @@ export class User extends Model {
   @Column({ unique: true })
   login: string;
   @Column
+  password: string;
+  @Column
   fullName: string;
 }

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
@@ -26,6 +26,19 @@ export class UsersService {
     return (await this.user.findOne({ where: { id } })).toJSON();
   }
 
+  async findByLoginAndPassword(login: string, password: string) {
+    const user = await this.user.findOne({
+      where: { login },
+    });
+    const isValid = this.checkPassword(password, user?.password);
+
+    if (isValid) {
+      return user;
+    }
+
+    return null;
+  }
+
   async update(id: number, updateUserInput: UpdateUserInput) {
     const oldUserData = await this.user.findOne({ where: { id } });
     const user = { ...oldUserData.toJSON(), updateUserInput };
@@ -37,6 +50,10 @@ export class UsersService {
     const oldUserData = await this.user.findOne({ where: { id } });
     await this.user.destroy({ where: { id } });
     return oldUserData.toJSON();
+  }
+
+  public async checkPassword(password: string, hash: string): Promise<boolean> {
+    return compare(password, hash);
   }
 
   hashPassword(password: string) {

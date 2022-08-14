@@ -1,9 +1,23 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { User } from '../../users/entities/user.entity';
 
 @Table
 export class Token extends Model {
   @Column
-  login: string;
+  token: string;
+
+  @ForeignKey(() => User)
+  @AllowNull(false)
   @Column
-  password: string;
+  public userId: number;
+
+  @BelongsTo(() => User)
+  public user: User;
 }

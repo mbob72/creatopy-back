@@ -7,9 +7,9 @@ export interface JwtAccessPayload {
   id: number;
 }
 
-export const jwtSecretKey = process.env.JWT_SECRET_KEY;
-if (!jwtSecretKey) {
+export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+if (!JWT_SECRET_KEY) {
   throw new Error('JWT_SECRET_KEY is not found in the environment');
 }
 
-export const jwtExpiration = +process.env.JWT_EXPIRATION || 3600;
+export const JWT_EXPIRATION = 3_600_000;
