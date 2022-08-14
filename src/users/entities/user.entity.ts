@@ -1,13 +1,12 @@
 import { Table, Column, Model } from 'sequelize-typescript';
+import { INTEGER } from 'sequelize';
 
 @Table
 export class User extends Model {
-  @Column({ primaryKey: true })
+  @Column({ primaryKey: true, type: INTEGER })
   id: number;
-  @Column
+  @Column({ unique: true })
   login: string;
-  @Column
-  password: string;
   @Column
   fullName: string;
 }

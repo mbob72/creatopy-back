@@ -6,10 +6,6 @@ import { JwtStrategy, STRATEGY_JWT } from './jwtStrategy.service';
 import { jwtExpiration, jwtSecretKey } from './jwt';
 import { UsersModule } from '../users/users.module';
 
-/**
- * Модуль аутентификации
- * $module {Модуль аутентификации}
- */
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: STRATEGY_JWT }),

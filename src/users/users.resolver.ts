@@ -1,16 +1,16 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserType } from './dto/user.type';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { GraphqlAuthGuard } from '../auth/graphqlAuth.guard';
-import { UseGuards } from '@nestjs/common';
+import { GraphQLContext } from '../types';
 
 @Resolver(() => UserType)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(GraphqlAuthGuard)
   @Mutation(() => UserType)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.usersService.create(createUserInput);
@@ -24,13 +24,16 @@ export class UsersResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => UserType)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
+  updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    @Context() context: GraphQLContext,
+  ) {
+    return this.usersService.update(context.req.user.id, updateUserInput);
   }
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => UserType)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.usersService.remove(id);
+  removeUser(@Context() context: GraphQLContext) {
+    return this.usersService.remove(context.req.user.id);
   }
 }

@@ -3,7 +3,9 @@ import { CreateTokenInput } from './dto/create-token.input';
 
 @Injectable()
 export class TokenService {
-  create(createTokenInput: CreateTokenInput) {
+  async create(createTokenInput: CreateTokenInput) {
+    // const user = await this.checkUserCredentials(email, password);
+
     return 'This action adds a new token';
   }
 

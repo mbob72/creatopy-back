@@ -1,9 +1,9 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { Column, Model, Table } from 'sequelize-typescript';
 
-@ObjectType()
-export class Token {
-  @Field(() => String, { description: 'email/phone/login' })
+@Table
+export class Token extends Model {
+  @Column
   login: string;
-  @Field(() => String, { description: 'password' })
+  @Column
   password: string;
 }

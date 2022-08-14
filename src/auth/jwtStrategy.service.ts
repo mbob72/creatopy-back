@@ -6,11 +6,6 @@ import { JwtAccessPayload, jwtSecretKey } from './jwt';
 
 export const STRATEGY_JWT = 'jwt';
 
-/**
- * Стратегия проверки аутентификации с помощью jwt-токена в
- * http заголовке Authorization Bearer
- * $module {Модуль аутентификации}
- */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, STRATEGY_JWT) {
   constructor(private readonly authService: AuthService) {
@@ -20,11 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, STRATEGY_JWT) {
     });
   }
 
-  // noinspection JSUnusedGlobalSymbols
-  /**
-   * Переопределенная функция, которая вызывается когда токен уже проверен
-   * Она возвращает пользователя исходя из содержимого токена
-   */
   async validate(payload: JwtAccessPayload) {
     return this.authService.getUserFromJwtPayload(payload);
   }

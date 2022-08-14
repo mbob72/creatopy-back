@@ -6,8 +6,6 @@ export class UserType {
   id: number;
   @Field(() => String, { description: 'login/email/phone' })
   login: string;
-  @Field(() => String, { description: 'password' })
-  password: string;
   @Field(() => String, { description: 'full name' })
   fullName: string;
 }
