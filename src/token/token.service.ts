@@ -1,8 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTokenInput } from './dto/create-token.input';
 import { UsersService } from '../users/users.service';
-import { Token } from './entities/token.entity';
-import { TOKEN_PROVIDER } from './token.constants';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -10,9 +8,6 @@ export class TokenService {
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
-
-    @Inject(TOKEN_PROVIDER)
-    private readonly token: typeof Token,
   ) {}
 
   async create({ login, password }: CreateTokenInput) {
@@ -31,13 +26,5 @@ export class TokenService {
       token,
       user,
     };
-  }
-
-  findOne(token: string) {
-    return `This action returns a #${token} token`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} token`;
   }
 }

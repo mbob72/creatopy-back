@@ -23,14 +23,14 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    return (await this.user.findOne({ where: { id } })).toJSON();
+    return this.user.findOne({ where: { id } });
   }
 
   async findByLoginAndPassword(login: string, password: string) {
     const user = await this.user.findOne({
       where: { login },
     });
-    const isValid = this.checkPassword(password, user?.password);
+    const isValid = await this.checkPassword(password, user?.password);
 
     if (isValid) {
       return user;

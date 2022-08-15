@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import { User } from '../users/entities/user.entity';
 import { Item } from '../items/entities/item.entity';
-import { Token } from '../token/entities/token.entity';
 
 export const databaseProviders = [
   {
@@ -11,7 +10,7 @@ export const databaseProviders = [
         dialect: 'sqlite',
         storage: 'database.sqlite',
       });
-      sequelize.addModels([User, Item, Token]);
+      sequelize.addModels([User, Item]);
       await sequelize.sync();
       return sequelize;
     },

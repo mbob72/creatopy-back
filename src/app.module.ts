@@ -6,6 +6,8 @@ import { ItemsModule } from './items/items.module';
 import { TokenModule } from './token/token.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { DataLoaderInterceptor } from './dataloader.interceptor';
 
 @Module({
   imports: [
@@ -18,6 +20,12 @@ import { GraphQLModule } from '@nestjs/graphql';
     TokenModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataLoaderInterceptor,
+    },
+  ],
 })
 export class AppModule {}

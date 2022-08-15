@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserType } from './dto/user.type';
@@ -18,8 +18,8 @@ export class UsersResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Query(() => UserType, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.usersService.findOne(id);
+  findOne(@Context() context: GraphQLContext) {
+    return this.usersService.findOne(context.req.user.id);
   }
 
   @UseGuards(GraphqlAuthGuard)
