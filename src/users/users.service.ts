@@ -41,7 +41,8 @@ export class UsersService {
 
   async update(id: number, updateUserInput: UpdateUserInput) {
     const oldUserData = await this.user.findOne({ where: { id } });
-    const user = { ...oldUserData.toJSON(), updateUserInput };
+    const password = await this.hashPassword(updateUserInput.password);
+    const user = { ...oldUserData.toJSON(), ...updateUserInput, password };
     await this.user.update(user, { where: { id } });
     return user;
   }
